@@ -29,21 +29,16 @@ export class CovidService {
     );
   }
 
-  setTodaysCovidData(covidDto: Observable<CovidDto>) {
-    let covid: CovidEntity = new CovidEntity();
+  setTodaysCovidData(covidDto: Observable<CovidDto>): void {
     covidDto.subscribe(async (data: CovidDto) => {
-      covid.id = data.id;
-      covid.last_update = data.last_update;
-      covid.total_cases = data.total_cases;
-      covid.total_deaths = data.total_deaths;
-      covid.incidence = data.incidence;
-
-      console.log(covid);
-
-      this.repo.create(covid);
-
       try {
-        return await this.repo.save(covid);
+        return await this.repo.insert({
+          id: data.id,
+          last_update: data.last_update,
+          total_cases: data.total_cases,
+          total_deaths: data.total_deaths,
+          incidence: data.incidence,
+        });
       } catch (error) {
         throw new InternalServerErrorException(
           'Something went wrong. Covid-Data not saved',

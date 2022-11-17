@@ -30,22 +30,17 @@ export class RiversService {
     );
   }
 
-  async setCurrentWaterlevel(riverDTO: Observable<RiverDto>) {
-    let river: RiverEntity = new RiverEntity();
+  async setCurrentWaterlevel(riverDTO: Observable<RiverDto>): Promise<void> {
     riverDTO.subscribe(async (data: RiverDto) => {
-      river.id = data.id;
-      river.name = data.name;
-      river.station = data.station;
-      river.timestamp = data.timestamp;
-      river.unit = data.unit;
-      river.waterlevel = data.waterlevel;
-
-      console.log(river);
-
-      this.repo.create(river);
-
       try {
-        return await this.repo.save(river);
+        return await this.repo.insert({
+          id: data.id,
+          name: data.name,
+          station: data.station,
+          timestamp: data.timestamp,
+          unit: data.unit,
+          waterlevel: data.waterlevel,
+        });
       } catch (error) {
         throw new InternalServerErrorException(
           'Something went wrong. River-Data not saved',

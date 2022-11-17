@@ -13,7 +13,7 @@ export class CovidController {
   }
 
   @Post()
-  setCurrentWaterlevel(@Body(ValidationPipe) data: Observable<CovidDto>) {
+  setCurrentWaterlevel(@Body(ValidationPipe) data: Observable<CovidDto>): void {
     return this.covidService.setTodaysCovidData(
       this.covidService.getTodaysCovidData(),
     );

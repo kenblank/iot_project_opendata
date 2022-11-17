@@ -35,31 +35,61 @@ export class NextbikesService {
     );
   }
 
-  setCurrentNextbikes(nextbikeDTO: Observable<NextbikeDto[]>) {
-    let nextbikes: NextbikeEntity[] = [];
-    let nextbike = new NextbikeEntity();
+  setInitialNextbikes(nextbikeDTO: Observable<NextbikeDto[]>): void {
     nextbikeDTO.subscribe(async (data: NextbikeDto[]) => {
-      data.map((nextbike_entry: NextbikeEntity) => {
-        (nextbike.id = nextbike_entry.id),
-          (nextbike.location = nextbike_entry.location);
-        nextbike.location_id = nextbike_entry.location_id;
-        nextbike.timestamp = nextbike_entry.timestamp;
-        nextbike.available_bikes = nextbike_entry.available_bikes;
-        nextbike.booked_bikes = nextbike_entry.booked_bikes;
-        nextbike.total_parking_spaces = nextbike_entry.total_parking_spaces;
-        nextbike.available_parking_spaces =
-          nextbike_entry.available_parking_spaces;
-        nextbikes.push(nextbike);
+      data.map(async (nextbike_entry: NextbikeDto) => {
+        try {
+          await this.repo.insert({
+            id: nextbike_entry.id,
+            timestamp: nextbike_entry.timestamp,
+            location: nextbike_entry.location,
+            location_id: nextbike_entry.location_id,
+            available_bikes: nextbike_entry.available_bikes,
+            booked_bikes: nextbike_entry.booked_bikes,
+            total_parking_spaces:
+              nextbike_entry?.total_parking_spaces !== undefined
+                ? nextbike_entry.total_parking_spaces
+                : 0,
+            available_parking_spaces:
+              nextbike_entry?.available_parking_spaces !== undefined
+                ? nextbike_entry.available_parking_spaces
+                : 0,
+          });
+        } catch (error) {
+          throw new InternalServerErrorException(
+            'Something went wrong. Nextbike-Data not saved',
+          );
+        }
       });
-      this.repo.create(nextbikes);
+    });
+  }
 
-      try {
-        return await this.repo.save(nextbikes);
-      } catch (error) {
-        throw new InternalServerErrorException(
-          'Something went wrong. Nextbike-Data not saved',
-        );
-      }
+  updateNextbikes(nextbikeDTO: Observable<NextbikeDto[]>): void {
+    nextbikeDTO.subscribe(async (data: NextbikeDto[]) => {
+      data.map(async (nextbike_entry: NextbikeDto) => {
+        try {
+          this.repo.update(
+            { id: nextbike_entry.id },
+            {
+              timestamp: nextbike_entry.timestamp,
+              available_bikes: nextbike_entry.available_bikes,
+              booked_bikes: nextbike_entry.booked_bikes,
+              total_parking_spaces:
+                nextbike_entry?.total_parking_spaces !== undefined
+                  ? nextbike_entry.total_parking_spaces
+                  : 0,
+              available_parking_spaces:
+                nextbike_entry?.available_parking_spaces !== undefined
+                  ? nextbike_entry.available_parking_spaces
+                  : 0,
+            },
+          );
+        } catch (error) {
+          throw new InternalServerErrorException(
+            'Something went wrong. Nextbike-Data not saved',
+          );
+        }
+      });
     });
   }
 }

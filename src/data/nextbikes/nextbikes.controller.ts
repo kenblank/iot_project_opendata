@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { CovidDto } from 'src/DTO/covid.dto';
 import { NextbikeDto } from 'src/DTO/nextbike.dto';
@@ -14,8 +21,15 @@ export class NextbikesController {
   }
 
   @Post()
-  setCurrentNextbikes(@Body(ValidationPipe) data: Observable<CovidDto>) {
-    return this.nextbikesService.setCurrentNextbikes(
+  setInitialNextbikes(@Body(ValidationPipe) data: Observable<CovidDto>) {
+    return this.nextbikesService.setInitialNextbikes(
+      this.nextbikesService.getCurrentNextbikes(),
+    );
+  }
+
+  @Patch()
+  updateNextbikes(@Body(ValidationPipe) data: Observable<CovidDto>) {
+    return this.nextbikesService.updateNextbikes(
       this.nextbikesService.getCurrentNextbikes(),
     );
   }
