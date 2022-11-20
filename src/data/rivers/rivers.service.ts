@@ -5,6 +5,7 @@ import { map, Observable } from 'rxjs';
 import { RiverDto } from 'src/DTO/river.dto';
 import { RiverEntity } from 'src/Entity/river.entity';
 import { Repository } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RiversService {
@@ -20,7 +21,7 @@ export class RiversService {
     return this.httpService.get(this.url).pipe(
       map((response) => response.data),
       map((data) => ({
-        id: 1,
+        id: uuidv4(),
         timestamp: data.currentMeasurement.timestamp,
         name: 'Rhein',
         station: 'Ludwigshafen am Rhein',
@@ -30,7 +31,7 @@ export class RiversService {
     );
   }
 
-  async setCurrentWaterlevel(riverDTO: Observable<RiverDto>): Promise<void> {
+  setCurrentWaterlevel(riverDTO: Observable<RiverDto>): void {
     riverDTO.subscribe(async (data: RiverDto) => {
       try {
         return await this.repo.insert({

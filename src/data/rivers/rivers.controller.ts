@@ -13,9 +13,7 @@ export class RiversController {
   }
 
   @Post()
-  setCurrentWaterlevel(
-    @Body(ValidationPipe) data: Observable<RiverDto>,
-  ): Promise<void> {
+  setCurrentWaterlevel(@Body(ValidationPipe) data: Observable<RiverDto>): void {
     return this.riversService.setCurrentWaterlevel(
       this.riversService.getCurrentWaterlevel(),
     );

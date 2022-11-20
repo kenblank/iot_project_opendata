@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity('opendata_river')
 export class RiverEntity {
   @PrimaryColumn()
-  id: number;
+  id: string;
   @Column()
   timestamp: string;
   @Column()
