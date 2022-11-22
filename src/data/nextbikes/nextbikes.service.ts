@@ -36,7 +36,7 @@ export class NextbikesService {
   }
 
   setInitialNextbikes(nextbikeDTO: Observable<NextbikeDto[]>): void {
-    nextbikeDTO.subscribe(async (data: NextbikeDto[]) => {
+    nextbikeDTO.subscribe((data: NextbikeDto[]) => {
       data.map(async (nextbike_entry: NextbikeDto) => {
         try {
           await this.repo.insert({
@@ -65,7 +65,7 @@ export class NextbikesService {
   }
 
   updateNextbikes(nextbikeDTO: Observable<NextbikeDto[]>): void {
-    nextbikeDTO.subscribe(async (data: NextbikeDto[]) => {
+    nextbikeDTO.subscribe((data: NextbikeDto[]) => {
       data.map(async (nextbike_entry: NextbikeDto) => {
         try {
           this.repo.update(
