@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CovidDto } from 'src/DTO/covid.dto';
 import { CovidService } from './covid.service';
 
@@ -13,9 +13,7 @@ export class CovidController {
   }
 
   @Post()
-  setCurrentWaterlevel(@Body(ValidationPipe) data: Observable<CovidDto>): void {
-    return this.covidService.setTodaysCovidData(
-      this.covidService.getTodaysCovidData(),
-    );
+  setCurrentWaterlevel(@Body(ValidationPipe) data: CovidDto): void {
+    return this.covidService.setTodaysCovidData(of(data));
   }
 }

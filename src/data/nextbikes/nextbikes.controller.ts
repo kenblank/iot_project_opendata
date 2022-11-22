@@ -6,8 +6,7 @@ import {
   Post,
   ValidationPipe,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { CovidDto } from 'src/DTO/covid.dto';
+import { Observable, of } from 'rxjs';
 import { NextbikeDto } from 'src/DTO/nextbike.dto';
 import { NextbikesService } from './nextbikes.service';
 
@@ -21,16 +20,12 @@ export class NextbikesController {
   }
 
   @Post()
-  setInitialNextbikes(@Body(ValidationPipe) data: Observable<CovidDto>) {
-    return this.nextbikesService.setInitialNextbikes(
-      this.nextbikesService.getCurrentNextbikes(),
-    );
+  setInitialNextbikes(@Body(ValidationPipe) data: NextbikeDto[]) {
+    return this.nextbikesService.setInitialNextbikes(of(data));
   }
 
   @Patch()
-  updateNextbikes(@Body(ValidationPipe) data: Observable<CovidDto>) {
-    return this.nextbikesService.updateNextbikes(
-      this.nextbikesService.getCurrentNextbikes(),
-    );
+  updateNextbikes(@Body(ValidationPipe) data: NextbikeDto[]) {
+    return this.nextbikesService.updateNextbikes(of(data));
   }
 }
