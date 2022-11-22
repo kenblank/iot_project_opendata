@@ -35,7 +35,7 @@ function main() {
 
   const nextbikes_path = 'nextbikes';
   getData(nextbikes_path, false);
-  setInterval(() => getData(nextbikes_path, false), 100000000);
+  setInterval(() => getData(nextbikes_path, false), 86400000);
 
   const river_path = 'river';
   getData(river_path, true);
