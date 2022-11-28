@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { CovidDto } from 'src/DTO/covid.dto';
 import { CovidEntity } from 'src/Entity/covid.entity';
 import { Repository } from 'typeorm';
@@ -17,7 +17,7 @@ export class CovidService {
     @InjectRepository(CovidEntity) private repo: Repository<CovidEntity>,
   ) {}
 
-  getTodaysCovidData(): Observable<CovidDto> {
+  getTodaysCovidData(): Observable<CovidDto> | Observable<undefined> {
     return this.httpService.get(this.url_replacement).pipe(
       map((response) => response.data),
       map((data) => ({
@@ -27,6 +27,9 @@ export class CovidService {
         total_deaths: data.records[0].fields.deaths,
         incidence: data.records[0].fields.cases7_per_100k,
       })),
+      catchError((error) => {
+        return of(undefined);
+      }),
     );
   }
 

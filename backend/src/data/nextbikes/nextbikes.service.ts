@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { NextbikeDto } from 'src/DTO/nextbike.dto';
 import { NextbikeEntity } from 'src/Entity/nextbikes.entity';
 import { Repository } from 'typeorm';
@@ -16,7 +16,7 @@ export class NextbikesService {
     @InjectRepository(NextbikeEntity) private repo: Repository<NextbikeEntity>,
   ) {}
 
-  getCurrentNextbikes(): Observable<NextbikeDto[]> {
+  getCurrentNextbikes(): Observable<NextbikeDto[]> | Observable<undefined> {
     return this.httpService.get(this.url).pipe(
       map((response) => response.data),
       map((data) => data.records),
@@ -32,6 +32,9 @@ export class NextbikesService {
           available_parking_spaces: record.fields.free_special_racks,
         })),
       ),
+      catchError((error) => {
+        return of(undefined);
+      }),
     );
   }
 

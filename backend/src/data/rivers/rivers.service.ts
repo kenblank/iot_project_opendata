@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { RiverDto } from 'src/DTO/river.dto';
 import { RiverEntity } from 'src/Entity/river.entity';
 import { Repository } from 'typeorm';
@@ -17,7 +17,7 @@ export class RiversService {
     @InjectRepository(RiverEntity) private repo: Repository<RiverEntity>,
   ) {}
 
-  getCurrentWaterlevel(): Observable<RiverDto> {
+  getCurrentWaterlevel(): Observable<RiverDto> | Observable<undefined> {
     return this.httpService.get(this.url).pipe(
       map((response) => response.data),
       map((data) => ({
@@ -28,6 +28,9 @@ export class RiversService {
         waterlevel: data.currentMeasurement.value,
         unit: data.unit,
       })),
+      catchError((error) => {
+        return of(undefined);
+      }),
     );
   }
 
