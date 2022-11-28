@@ -41,9 +41,7 @@ export class CovidService {
           incidence: data.incidence,
         });
       } catch (error) {
-        throw new InternalServerErrorException(
-          'Something went wrong. Covid-Data not saved',
-        );
+        console.log('Something went wrong. Covid-Data not saved');
       }
     });
   }

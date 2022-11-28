@@ -43,9 +43,7 @@ export class RiversService {
           waterlevel: data.waterlevel,
         });
       } catch (error) {
-        throw new InternalServerErrorException(
-          'Something went wrong. River-Data not saved',
-        );
+        console.log('Something went wrong. River-Data not saved');
       }
     });
   }

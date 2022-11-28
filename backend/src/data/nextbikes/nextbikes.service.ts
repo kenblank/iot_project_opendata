@@ -56,9 +56,7 @@ export class NextbikesService {
                 : 0,
           });
         } catch (error) {
-          throw new InternalServerErrorException(
-            'Something went wrong. Nextbike-Data not saved',
-          );
+          console.log('Something went wrong. Nextbikes-Data not saved');
         }
       });
     });
@@ -85,9 +83,7 @@ export class NextbikesService {
             },
           );
         } catch (error) {
-          throw new InternalServerErrorException(
-            'Something went wrong. Nextbike-Data not saved',
-          );
+          console.log('Something went wrong. Nextbikes-Data not saved');
         }
       });
     });
