@@ -10,14 +10,15 @@ import { Repository } from 'typeorm';
 export class CovidService {
   private url: string =
     'https://public.opendatasoft.com/api/records/1.0/search/?dataset=covid-19-germany-landkreise&q=ludwigshafen&facet=last_update&facet=name&facet=rs&facet=bez&facet=bl&refine.name=Ludwigshafen+am+Rhein';
-
+  private url_replacement: string =
+    'https://public.opendatasoft.com/api/records/1.0/search/?dataset=covid-19-germany-landkreise&q=mannheim&sort=cases7_per_100k&facet=last_update&facet=name&facet=rs&facet=bez&facet=bl';
   constructor(
     private httpService: HttpService,
     @InjectRepository(CovidEntity) private repo: Repository<CovidEntity>,
   ) {}
 
   getTodaysCovidData(): Observable<CovidDto> {
-    return this.httpService.get(this.url).pipe(
+    return this.httpService.get(this.url_replacement).pipe(
       map((response) => response.data),
       map((data) => ({
         id: data.records[0].recordid,
