@@ -14,7 +14,9 @@ async function postData(path, data) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).then((response) => console.log(response));
+  })
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error));
 }
 
 async function patchData(path, data) {
@@ -25,7 +27,9 @@ async function patchData(path, data) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).then((response) => console.log(response));
+  })
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error));
 }
 
 function main() {
