@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CovidModule } from 'src/Data/covid/covid.module';
+import { CovidModule } from '../src/Data/covid/covid.module';
 import { NextbikesModule } from './Data/nextbikes/nextbikes.module';
 import { RiversModule } from './Data/rivers/rivers.module';
 import { CovidEntity } from './Entity/covid.entity';
