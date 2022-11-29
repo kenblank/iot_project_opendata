@@ -1,8 +1,12 @@
 import fetch from 'node-fetch';
 
 async function getData(path, isPost) {
-  const get_response = await fetch(`http://localhost:3001/${path}`);
-  const data = await get_response.json();
+  const get_response = await fetch(`http://localhost:3001/${path}`)
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error));
+  const data = await get_response.json()
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error));;
   isPost ? postData(path, data) : patchData(path, data);
 }
 
