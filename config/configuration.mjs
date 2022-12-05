@@ -36,18 +36,4 @@ async function patchData(path, data) {
     .catch((error) => console.log(error));
 }
 
-function main() {
-  const covid_path = 'covid';
-  getData(covid_path, true);
-  setInterval(() => getData(covid_path, true), 86400000);
-
-  const nextbikes_path = 'nextbikes';
-  getData(nextbikes_path, false);
-  setInterval(() => getData(nextbikes_path, false), 86400000);
-
-  const river_path = 'river';
-  getData(river_path, true);
-  setInterval(() => getData(river_path, true), 900000);
-}
-
-main();
+export { getData, patchData}
