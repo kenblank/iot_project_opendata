@@ -1,21 +1,21 @@
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
 async function getData(path, isPost) {
-  const get_response = await fetch(`http://localhost:3001/${path}`)
-    .then((response) => console.log(response))
+  await fetch(`http://localhost:3001/${path}`)
+    .then(async (response) =>
+      isPost
+        ? postData(path, await response.json())
+        : patchData(path, await response.json())
+    )
     .catch((error) => console.log(error));
-  const data = await get_response.json()
-    .then((response) => console.log(response))
-    .catch((error) => console.log(error));;
-  isPost ? postData(path, data) : patchData(path, data);
 }
 
 async function postData(path, data) {
   await fetch(`http://localhost:3001/${path}`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   })
@@ -25,10 +25,10 @@ async function postData(path, data) {
 
 async function patchData(path, data) {
   await fetch(`http://localhost:3001/${path}`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   })
@@ -36,4 +36,4 @@ async function patchData(path, data) {
     .catch((error) => console.log(error));
 }
 
-export { getData, patchData}
+export { getData, patchData };
