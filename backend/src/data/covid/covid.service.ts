@@ -28,6 +28,7 @@ export class CovidService {
         incidence: data.records[0].fields.cases7_per_100k,
       })),
       catchError((error) => {
+        console.log(error);
         return of(undefined);
       }),
     );
