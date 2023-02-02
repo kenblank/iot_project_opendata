@@ -1,4 +1,4 @@
-import { getData } from "./configuration.mjs";
+import { getData } from "./controller.mjs";
 
 const covid_path = 'covid';
 const covid_interval = 86400000;

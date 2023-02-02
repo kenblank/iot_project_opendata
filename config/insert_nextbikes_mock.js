@@ -1,4 +1,4 @@
-import { patchData } from "./configuration.mjs";
+import { patchData } from "./controller.mjs";
 import { data_1 } from "./mock-data/nextbikes_mockdata_1.mjs";
 import { data_2 } from "./mock-data/nextbikes_mockdata_1.mjs";
 
